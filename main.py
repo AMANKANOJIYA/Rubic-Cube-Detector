@@ -1,30 +1,66 @@
 import cv2
 import numpy as np 
 
-img= cv2.imread("input/rubic cube.jpg")
-hsv=cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
+img= cv2.imread("./input/rubic cube-6.jpg")
+hsv=cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
 def empty(a):
     pass
 
 def colorDetection(color,image):
-    colordict={"Red":[[0,118,135],[95,255,255]],"Blue":[[100,50,50],[130,255,266]],"Green":[[65,60,60],[80,255,255]],"White":[[0,0,168],[172,111,255]],"Orange":[[1,190,200],[18,255,255]],"Yellow":[[20,100,100],[30,255,255]]}
+    
+    colordict={"Red":[[0,100,20],[5,255,255],[160,100,20],[179,255,255],"R"],"Blue":[[85,50,70],[140,255,220],"B"],"Green":[[50,100,100],[ 90,255,240],"G"],"White":[[ 0,  0, 120],[255, 50,255],"W"],"Orange":[[5,100,20],[28,255,255],"O"],"Yellow":[[ 25, 80,150],[40,255,255],"Y"]}
 
     if color in colordict:
-        lower=np.array(colordict[color][0])
-        upper=np.array(colordict[color][1])
-        Mask=cv2.inRange(image,lower,upper)
-
+        if color=="Red":
+            print(color)
+            lower_l=np.array(colordict[color][0])
+            upper_l=np.array(colordict[color][1])
+            lower_u=np.array(colordict[color][2])
+            upper_u=np.array(colordict[color][3])
+            Mask_l=cv2.inRange(image,lower_l,upper_l)
+            Mask_u=cv2.inRange(image,lower_u,upper_u)
+            Mask=Mask_l+Mask_u
+        else:
+            print(color)
+            lower=np.array(colordict[color][0])
+            upper=np.array(colordict[color][1])
+            Mask=cv2.inRange(image,lower,upper)
+        
         kernel=np.ones((2,2),np.uint8)
-        img_Erode=cv2.erode(Mask, kernel,iterations=1)
-        img_dilate=cv2.dilate(img_Erode, kernel,iterations=2)
+        img_Erode=cv2.erode(Mask, kernel,iterations=2)
+        img_dilate=cv2.dilate(img_Erode, kernel,iterations=1)
+        cv2.imshow("Dilated Image",img_dilate)
+        # ------------------------------------------------------------------------------------------------
+        # Find Canny edges
+        edged = cv2.Canny(img_Erode, 20, 200)
+        cv2.imshow('1 - Canny Edges', edged)
+        # cv2.waitKey(0)
 
+
+        # Find contours and print how many were found
+        contours, _ = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+
+        #Draw all contours
+        # cv2.drawContours(img_dilate, contours, -1, (0,255,0), 3)
+        # cv2.imshow('2 - All Contours over blank image', img_dilate)
+        # cv2.waitKey(0)
+
+
+        for c in contours:
+            # Calculate accuracy as a percent of the contour perimeter
+            accuracy = 0.03 * cv2.arcLength(c, True)
+            approx = cv2.approxPolyDP(c, accuracy, True)
+            cv2.drawContours(image, [approx], 0, (0, 255, 0), 2)
+            cv2.imshow('Approx Poly DP', image)
+
+        # ------------------------------------------------------------------------------------------------
         # cv2.imshow("Mask", Mask)
         # cv2.imshow("img_Erode", img_Erode)
         # cv2.imshow("img_dilate", img_dilate)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
         return img_dilate
 
@@ -183,3 +219,10 @@ cv2.destroyAllWindows()
 # upperGreen=np.array([94,255,255])
 # lowerGreen=np.array([65,60,60])
 # upperGreen=np.array([80,255,255])
+
+
+
+color_lims = {'G':(( 50,100,100),( 90,255,240)), 'R':((170,110,110),(10,255,155)),
+              'W':((  0,  0, 120),(255, 50,255)), 'Y':(( 11, 80,150),( 40,255,255)),
+              'B':(( 95,60,70),(120,255,220)), 'O':((175, 180, 155),(10,255,255))}
+
