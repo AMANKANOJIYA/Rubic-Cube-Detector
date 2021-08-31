@@ -10,6 +10,7 @@ class CubeOpt:
         for cont in conts:
             bound_rect = cv2.minAreaRect(cont)
             length, breadth = float(bound_rect[1][0]), float(bound_rect[1][1])
+            print(bound_rect,length,breadth)
             try:
                 if max((length/breadth, breadth/length)) > 5:
                     continue

@@ -103,29 +103,3 @@ cv2.imshow("Image",img)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
-#find contores
-
-
-# x=int(input())
-# for i in range(x):
-# 	a,b,c=list(map(int,input().split(" ")))
-# 	posible=[[1,1,2],[2,1,1],[1,2,1]]
-# 	pos=False
-# 	for i in posible:
-# 		if ((a-i[0])+(b-i[1])+(c-i[2])==0):
-# 			pos=True
-# 			break
-# 		else:
-# 			continue
-# 	if pos:
-# 		print("YES")
-# 	else:
-# 		print("NO")
-# x=int(input())
-# for i in range(x):
-# 	a,b,c=list(map(int,input().split(" ")))
-# 	if ((a+b+c)%4==0 and (a+b+c)/4<=min(a,b,c)):
-# 		print("YES")
-# 	else:
-# 		print("NO")
