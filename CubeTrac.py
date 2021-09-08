@@ -24,20 +24,20 @@ for j in range(0,len(main),3):
 color_store=[]
 for j in general:
     color_store+=[list(img[j[0],j[1]])]
-    cv2.drawContours(img, [j[-1]], -1, (0,0,255), thickness = 5)
-    cv2.imshow("image",img)
-    cv2.waitKey(0)
-maping,counter={},1
+    cv2.drawContours(img, [j[-1]], -1, (0,0,0), thickness = 5)
+maping,counter,text={},1,""
 for color in color_store:
     if str(color) in maping.values():
-        print(list(maping.keys())[list(maping.values()).index(str(color))],end="-")
+        text+=str(list(maping.keys())[list(maping.values()).index(str(color))])+"-"
     else:
         maping[counter]=str(color)
-        print(counter,end="-")
+        text+=str(counter)+"-"
         counter+=1
-print("\n",maping)
+text=text[:-1]
+print(text)
+# with open("output_rc-2.txt","w") as fs:
+#     fs.write(text)
 
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
