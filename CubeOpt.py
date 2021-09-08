@@ -81,3 +81,6 @@ class CubeOpt:
             return img_dilate
 
         return "Error"
+
+if __name__=="__main__":
+    pass
