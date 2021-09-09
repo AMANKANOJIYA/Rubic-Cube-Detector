@@ -1,11 +1,26 @@
 import cv2
 import numpy as np
+'''
+Works On HSV color detection method 
 
+WorkFlow :
+getFilteredCube() ---> ColorDetection() ---> removeBadCont() ---> getFilteredCube()
+We grab the image and put it into a color detector it will detect he color with respect specific HSV color range
+it will create mask will will then do some basic operation to convert the mask and then by basic operation we get the contores 
+now we filter the contore with some basic methods and operators so that we can remove bad contores from the list
+then at last we addd all the mask to and add it to the Base image
+'''
 class CubeOpt:
-    def __init__(self,img):
+    def __init__(self, img):
+        '''
+        Image Configuration
+        '''
         self.img=img
 
-    def removeBadCont(self,conts):
+    def removeBadCont(self, conts):
+        '''
+        Remove bad contores
+        '''
         new_conts = []
         for cont in conts:
             bound_rect = cv2.minAreaRect(cont)
@@ -33,6 +48,9 @@ class CubeOpt:
         return new_conts
 
     def getFilteredCube(self):
+        '''
+        Initialize the basic structure for work flow
+        '''
         hsv=cv2.cvtColor(self.img, cv2.COLOR_BGR2HSV)
         # ----------- Blue Color Mask Creation ----------------
         BlueMask=self.ColorDetection("Blue", hsv)
@@ -51,7 +69,10 @@ class CubeOpt:
         MaskedImg=cv2.bitwise_and(self.img,self.img, mask=result)
         return self.img
 
-    def ColorDetection(self,color,hsv):
+    def ColorDetection(self, color, hsv):
+        '''
+        Color Detection and convert to masks
+        '''
         colordict={"Red":[[0, 50, 70],[9, 255, 255],[159, 50, 70],[180, 255, 255],"R"],"Blue":[[90, 50, 70],[128, 255, 255],"B"],"Green":[[36, 50, 70],[89, 255, 255],"G"],"White":[[0, 0, 231],[180, 18, 255],"W"],"Orange":[[10, 50, 70],[24,255,255],"O"],"Yellow":[[ 25, 50,70],[35,255,255],"Y"]}
 
         if color in colordict:

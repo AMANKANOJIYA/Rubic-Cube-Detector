@@ -1,11 +1,22 @@
 import cv2
 import numpy as np
+'''
+Works On Canny edge detection method
 
+WorkFlow :
+getTrackedCube() ---> arrangeCube() ---> getTrackedCube()
+'''
 class CubeTrac:
-    def __init__(self,img):
+    def __init__(self, img):
+        '''
+        Image Configuration
+        '''
         self.img=img
     
     def getTrackedCube(self):
+        '''
+        Image Operation and color number assigning
+        '''
         # Convert to graycsale
         img_gray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
         # Blur the image for better edge detection
@@ -31,7 +42,10 @@ class CubeTrac:
             pattern+=1
         return text[:-1]
 
-    def arrangeCube(self,contours):
+    def arrangeCube(self, contours):
+        '''
+        Arrange the Contore in proper Order
+        '''
         main=[]
         for i in contours:
             M = cv2.moments(i)
