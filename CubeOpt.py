@@ -1,5 +1,5 @@
 import cv2
-import numpy as np 
+import numpy as np
 
 class CubeOpt:
     def __init__(self,img):
@@ -10,12 +10,22 @@ class CubeOpt:
         for cont in conts:
             bound_rect = cv2.minAreaRect(cont)
             length, breadth = float(bound_rect[1][0]), float(bound_rect[1][1])
+            area = cv2.contourArea(cont)
+            peri = cv2.arcLength(cont, True)
+            poly = cv2.approxPolyDP(cont, 0.1 * peri, True)
+            corner = len(poly)
             try:
                 if max((length/breadth, breadth/length)) > 5:
                     continue
                 if not 0.9*self.img.shape[0] > max((length, breadth)) > 0.05*self.img.shape[0]:
                     continue
-                if cv2.contourArea(cont)/(length*breadth) <0.4:
+                if area/(length*breadth) <0.5:
+                    continue
+                if corner>4 or corner<2:
+                    continue
+                if (length * breadth) / area <= 0.8:
+                    continue
+                if (2 * (length + breadth)) / peri <= 0.8:
                     continue
                 new_conts.append(cont)
             except ZeroDivisionError:
@@ -64,7 +74,11 @@ class CubeOpt:
 
             # Find Canny edges
             edged = cv2.Canny(img_Erode, 20, 200)
+            cv2.imshow("contore",edged)
             # Find contours and print how many were found
+            # res = cv2.cvtColor((self.img).copy(), cv2.COLOR_BGR2GRAY)
+            # ret, thrash = cv2.threshold(res, 40, 255, cv2.THRESH_BINARY)
+            # contours, _ = cv2.findContours(thrash, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
             contours, _ = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
             newContor=self.removeBadCont(contours)
 

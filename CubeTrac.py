@@ -35,8 +35,11 @@ class CubeTrac:
         main=[]
         for i in contours:
             M = cv2.moments(i)
-            cx = int(M['m10']/M['m00'])
-            cy = int(M['m01']/M['m00'])
+            try:
+                cx = int(M['m10']/M['m00'])
+                cy = int(M['m01'] / M['m00'])
+            except ZeroDivisionError:
+                continue
             main.append([cy,cx,i])
         main=sorted(main)
         general,calc=[],3

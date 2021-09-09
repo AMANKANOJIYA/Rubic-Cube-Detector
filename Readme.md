@@ -1,4 +1,4 @@
-# Rubic Cube Color Detector (RealTime)
+# Rubic Cube Detector
 
 ## How It Works
 
@@ -11,11 +11,13 @@ In this module it contain Two method gives seperate Output With Different Approa
 ### CubeOpt
 
 ```bat
+
 python main.py -co
 
 // or //
 
 python main.py --cubeopt
+
 ```
 
 - In this we used Hsv tracking to configer the cube and filtering it through some parameters
@@ -29,11 +31,13 @@ python main.py --cubeopt
 ### CubeTrac
 
 ```bat
+
 python main.py -ct
 
 // or //
 
 python main.py --cubetrac
+
 ```
 
 - In this we used Canny Edge Detection to configer the cube and filtering it through some parameters
@@ -44,16 +48,19 @@ python main.py --cubetrac
 - Output in form of Text file contain unique number pattern for color
 
 ```bat
+
 python main.py -ct -co
 
 // or //
 
 python main.py --cubetrac --cubeopt
+
 ```
 
 ## External Module Used
 
 - <a href="https://opencv.org/" >OpenCv</a>
+- <a href="https://opencv.org/" >Numpy</a>
 - <a href="https://docs.python.org/3/library/os.html" >OS</a>
 - <a href="https://docs.python.org/3/library/argparse.html" >ArgParse</a>
 
