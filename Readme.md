@@ -47,6 +47,8 @@ python main.py --cubetrac
 - This file Gives Output in `output_trac/` file
 - Output in form of Text file contain unique number pattern for color
 
+## For Both Type Of Out Put
+
 ```bat
 
 python main.py -ct -co
