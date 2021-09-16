@@ -25,14 +25,16 @@ def main(cubeopt=False, cubetrac=False):
             img = cv2.imread(f"./input/{i}")
             sample = co.CubeOpt(img)
             sample.getFilteredCube()
-            cv2.imwrite(f"{os.getcwd()}\output_opt\\output_{name}.jpg", img)
+            cv2.imwrite(f"{os.getcwd()}\Output\\output_{name}.jpg", img)
+            # cv2.imwrite(f"{os.getcwd()}\output_opt\\output_{name}.jpg", img)
     if cubetrac:
         for i in input_list:
             name = i.split(".")[0]
             img=cv2.imread(f"./input/{i}")
             sample = ct.CubeTrac(img)
             text = sample.getTrackedCube()
-            with open(f"{os.getcwd()}\output_trac\\output_{name}", "w") as file:
+            with open(f"{os.getcwd()}\Output\\output_{name}", "w") as file:
+            # with open(f"{os.getcwd()}\output_trac\\output_{name}", "w") as file:
                 file.write(text)
     return True
 
@@ -41,4 +43,5 @@ main(dict_args["cubeopt"],dict_args["cubetrac"])
 cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    pass
+    main(False,True)
+    # pass
